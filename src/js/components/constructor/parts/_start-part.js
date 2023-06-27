@@ -1,6 +1,9 @@
 import input from "../../_input"
 import CustomRadio from "../../_radio"
 import ConstructorSteps from "../_constructor-steps"
+import { useStore } from "../../../stores/store"
+
+const {mapState} = Pinia;
 
 export default {
   data() {
@@ -59,8 +62,10 @@ export default {
   <button class="arrow-link next-btn next-btn-dark white-arrow-link" :class="{disabled: isDisabled}" :disabled="isDisabled" @click="nextStep">Select Additional Units</button>
   <button class="arrow-link next-btn next-btn-dark white-arrow-link" :class="{disabled: isDisabled}" :disabled="isDisabled" @click="proceedToCart">Proceed To Add To Cart</button>
   </div>
-
 </div>
+
+
+
 
 `,
   components: {
@@ -96,6 +101,8 @@ export default {
       } else {
         this.widthAboveThreshold = false;
       }
+
+      console.log(this.n);
     },
 
     proceedToCart() {
@@ -107,7 +114,11 @@ export default {
   computed: {
     isDisabled() {
       return !this.width || !this.height || !this.type;
-    }
+    },
+
+    ...mapState(useStore, {
+      n: "count"
+    })
   },
   props: {
     checkboxes: Array,

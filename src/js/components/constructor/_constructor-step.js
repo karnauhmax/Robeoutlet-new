@@ -1,6 +1,9 @@
 import startPart from "./parts/_start-part"
 import selectPart from "./parts/_select-part";
 import finalPart from "./parts/_final-part";
+import { useStore } from "../../stores/store";
+const { mapState } = Pinia;
+
 
 export default {
   components: {
@@ -62,11 +65,20 @@ export default {
       this.$root.selectedArr.push(selectedKeys);
       this.$root.currentStep++;
 
-
+      console.log(this.n);
     },
     show() {
       console.log(this.resultImg);
     }
+  },
+
+  computed: {
+    ...mapState(useStore, {
+      n: "count"
+    })
+  },
+
+  mounted() {
   }
 
 }

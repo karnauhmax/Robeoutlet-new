@@ -69,10 +69,10 @@ const constructorSteps = [
         ]
       },
       {
-        
+
         id: 2,
         name: "2 Drawers & 3 shelving unit",
-        img: "img/svg/4-drawers-3-shelving-units.svg",
+        img: "img/svg/2-drawers-3-shelving-unit.svg",
         resultImg: 'img/svg/2-drawers-3-shelving-unit-final.svg',
         itemTable: [[295, 375], [350, 420]],
         checkboxes: [

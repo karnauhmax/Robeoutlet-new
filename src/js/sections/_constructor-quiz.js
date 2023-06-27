@@ -4,10 +4,12 @@ import customSelect from "../components/_custom-select";
 import selectedComponent from "../components/selected/_selected-component";
 import stepBtn from "../components/_step-btn";
 import step from "../components/constructor/_constructor-step";
+import { useStore } from "../stores/store";
 
 const { createApp } = Vue;
+const { createPinia, mapState, mapActions } = Pinia;
 
-
+const pinia = createPinia();
 
 const app = createApp({
   data() {
@@ -37,6 +39,10 @@ const app = createApp({
         this.currentStep = index;
       }
     },
+
+    ...mapActions(useStore, {
+      getHomeFields: "getHomeFields"
+    })
   },
   components: {
     'custom-select': customSelect,
@@ -44,12 +50,21 @@ const app = createApp({
     'constructor-step': step,
     'step-btn': stepBtn,
     'draggable': window['vuedraggable']
+  },
+
+  computed: {
+    ...mapState(useStore, {
+      fields: "homeFields"
+    })
+  },
+
+  mounted() {
+    this.getHomeFields();
   }
 });
 
-
+app.use(pinia);
 
 if (document.querySelector("[data-constructor-type='wardrobe-inserts']")) {
   app.mount("[data-constructor-type='wardrobe-inserts']");
 }
-

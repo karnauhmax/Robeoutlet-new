@@ -39,6 +39,7 @@ class Accordion {
 
   renderaccordionWithHead() {
     this.selector.addEventListener('click', e => {
+      console.log(1);
       const target = e.target;
       const item = target.closest('.accordion-item');
       const head = target.closest('.accordion-item__head');

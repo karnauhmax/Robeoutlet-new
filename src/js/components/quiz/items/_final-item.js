@@ -31,10 +31,37 @@ export default {
       selected: Selected
     }
   },
+
+  // <img v-for="(door, index) in doorsAmount" :key="index" src="img/svg/door.svg" alt="Door">
+
   template: `
-  <form id="opening-size-form" class="process__finale grid">
-   <div class="process__finale-img ibg">
-    <img loading="lazy" src="img/svg/opening-size.svg" class="image" width="505" height="340" alt="Opening Size Image">
+  <div class="process__finale grid">
+   <div class="process__finale-img">
+    <div class="process__finale-img-items">
+      <div class="process__pointer process__pointer-vertical process__pointer-top">
+        A,mm
+      </div>
+      <div class="process__pointer process__pointer-vertical process__pointer-bottom">
+        B,mm
+      </div>
+      <div class="process__pointer process__pointer-horizontal process__pointer-left">
+        D, mm
+      </div>
+
+
+
+
+      <template v-if="!doorsAmount">
+        <img src="img/svg/door.svg" alt="Door">
+        <img src="img/svg/door.svg" alt="Door">
+      </template>
+
+      <img v-for="(img,index) in doorsAmount" :key="index" src="img/svg/door.svg" alt="Door">
+
+      <div class="process__pointer process__pointer-horizontal process__pointer-right">
+        C, mm
+      </div>
+    </div>
    </div>
    <div class="process__finale-body grid">
     <p class="uppercase-bold process__finale-title">
@@ -46,18 +73,17 @@ export default {
     <div class="process__notice grid">
      <CustomCheckbox label="add floor board" v-model:checked="addFloorBoard" value="Add Floor Board" />
 
-
-
      <p v-if="addFloorBoard" class="text text-300 process__notice-text">
       16mm melamine board recommended to use on top of carpet or concrete floor. The bottom track applies on top of it.
-              Please provide the actual opening sizes and we will take care of deductions!
+        Please provide the actual opening sizes and we will take care of deductions!
      </p>
     </div>
     <p class="process__finale-total uppercase-bold text">
-     <span>{{calculatedPrice}}</span>
+     <span>{{totalPrice}}</span>
     </p>
    </div>
-  </form>
+  </div>
+
   <button type="submit" form="opening-size-form" class="uppercase-bold process__finale-btn btn btn-dark"> Add to cart</button>
 
   `,
@@ -70,7 +96,7 @@ export default {
       return this.selected.length > 0 ? this.selected[0].table : null;
     },
 
-    calculatedPrice() {
+    calculatedPriceObject() {
       if (this.inputs.some(item => !item.value) || !this.selectedTable) {
         return null;
       }
@@ -82,14 +108,30 @@ export default {
       const doorType = this.selected.find(item => item.doorType)?.doorType || "default";
       const total = calculatePrice(width, height, doorType, thickness, this.selectedTable);
 
-
       return total;
 
     },
+
+    doorsAmount() {
+      return this.calculatedPriceObject ? this.calculatedPriceObject.doorsAmount : "";
+    },
+
+    totalPrice() {
+      return this.calculatedPriceObject ? this.calculatedPriceObject.price : "";
+    }
   },
   methods: {
     calculateMetric(metric, arr) {
-      return arr.filter(item => item.type === metric).reduce((acc, item) => acc + item.value, 0);
-    },
+      const filteredArr = arr.filter(item => item.type === metric);
+      const sortedArr = filteredArr.sort((a, b) => b.value - a.value);
+
+      if (sortedArr.length > 0) {
+        console.log(sortedArr[0].value);
+        return sortedArr[0].value;
+      } else {
+        return 0; // or any default value when no items match the metric
+      }
+    }
+
   },
 }

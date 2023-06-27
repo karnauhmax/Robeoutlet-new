@@ -4,7 +4,7 @@
  <body class="page__body">
   <div class="site-container">
    @include('partials/header.html')
-   <main class="main">
+   <main class="main" data-page="home">
     <!-- hero section -->
     <section class="hero">
      <div class="container">
@@ -20,32 +20,17 @@
      </div>
     </section>
     <!-- hero section -->
+
     <div class="main-sections-wrapper">
      <!-- partners section -->
      <section class="partners">
       <div class="partners__inner">
        <h2 class="partners__title section-title">Our partners</h2>
        <div class="swiper partners__slider">
-        <!-- Additional required wrapper -->
         <div class="swiper-wrapper">
          <!-- Slides -->
-         <div class="swiper-slide">
-          <img src="img/logos/superkote.png" alt="SUPERKOTEGLASS" width="277" height="70">
-         </div>
-         <div class="swiper-slide">
-          <img src="img/logos/dulux.png" alt="Dulux" width="239" height="70">
-         </div>
-         <div class="swiper-slide">
-          <img src="img/logos/pivotech.png" alt="Pivotech" width="298" height="70">
-         </div>
-         <div class="swiper-slide">
-          <img src="img/logos/aramex.png" alt="Aramex" width="429" height="70">
-         </div>
-         <div class="swiper-slide">
-          <img src="img/logos/bunnings.png" alt="Bunnings" width="194" height="70">
-         </div>
-         <div class="swiper-slide">
-          <img src="img/logos/dias.png" alt="Dias" width="104" height="70">
+         <div class="swiper-slide" v-for="(img, index) in homeLogos">
+          <img :src="img.renderedImage.path" alt="Dias" :width="img.renderedImage.width" :height="img.renderedImage.height">
          </div>
         </div>
        </div>
@@ -136,7 +121,7 @@
      <section class="photos">
       <div class="container">
        <div class="photos__inner">
-        <div class="photos__info grid-flow">
+        <div class="photos__info grid-flow" style="display: none;">
          <div class="photos__info-head">
           <h2 class="photos__title section-title">
            inspiration photos
@@ -172,7 +157,7 @@
           </button>
          </div>
         </div>
-        <div class="photos__content" data-aos="fade-right">
+        <div class="photos__content" data-aos="fade-right" style="display: none;">
          <div class="tabs-content tabs-content-active" data-tabs-target="framed-vinyl">
           <div href="#" class="ibg photos__img">
            <img loading="lazy" src="img/content/fully-framed-vinyl.jpg" class="image" width="940" height="600" alt="Framed Silver Doors With Mirror Doors">
@@ -180,7 +165,7 @@
          </div>
          <div class="tabs-content" data-tabs-target="framed-white-glass">
           <div href="#" class="ibg photos__img">
-           <img loading="lazy" src="img/content/framed-silver-doors.jpg" class="image" width="940" height="600" alt="Framed Silver Doors With Mirror Doors">
+           <img loading="lazy" src="img/content/fully-framed-super-white-glass.jpg" class="image" width="940" height="600" alt="Framed Silver Doors With Mirror Doors">
           </div>
          </div>
          <div class="tabs-content" data-tabs-target="framed-politech">
@@ -219,6 +204,14 @@
           </div>
          </div>
         </div>
+
+
+        <photos-tabs :tabs="homePhotos"></photos-tabs>
+
+        <!-- <photos-accordion></photos-accordion> -->
+
+
+
         <div class="photos__accordion" data-aos="fade-right">
          <div class="photos__accordion-item grid-flow accordion-item">
           <div class="photos__accordion-head">
@@ -416,7 +409,7 @@
      <!-- guide section -->
      <section class="guide" data-aos="fade-up">
       <div class="container">
-       <div class="guide__head">
+       <!-- <div class="guide__head">
         <h2 class="guide__title section-title">
          DIY Guide - how to measure and install
         </h2>
@@ -612,7 +605,9 @@
          </div>
         </div>
        </div>
-      </div>
+      </div> -->
+
+      <guide-tabs></guide-tabs>
      </section>
      <!-- guide section -->
      <!-- faq section -->
@@ -620,7 +615,7 @@
       <div class="container">
        <div class="faq__inner">
         <h2 class="faq__title section-title">faq</h2>
-        <div class="faq__questions">
+        <!-- <div class="faq__questions">
          <div class="faq__item accordion-item" data-aos="fade-right" data-aos-delay="100">
           <button class="faq__item-head accordion-item__head">
             How long will it take to install wardrobe doors myself?
@@ -771,10 +766,14 @@
            </div>
           </div>
          </div>
-        </div>
+        </div> -->
+        <faq-accordion :items="homeFaqs"></faq-accordion>
        </div>
       </div>
      </section>
+
+
+
      <!-- faq section -->
     </div>
     <!-- preloader -->

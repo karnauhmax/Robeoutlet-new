@@ -4,6 +4,7 @@ export default {
   data() {
     return {
       selectedValues: [],
+      notice: false,
     }
   },
   components: {
@@ -27,7 +28,7 @@ export default {
 </div>
   <button class="arrow-link next-btn next-btn-light white-arrow-link" @click="pushSelectedValues">Next Step</button>
 
-
+  <p v-if="notice" class="warning">The initial wardrobe width exceeds the width of selected units, please go back and update your order</p>
   </div>
 
   `,
@@ -39,6 +40,18 @@ export default {
     resultImg: String,
   },
 
+  computed: {
+    overallWidth() {
+      const overallWidth = this.units.reduce((acc, unit) => {
+        return acc + unit.items.reduce((acc2, item) => {
+          return acc2 + item.width * item.quantity;
+        }, 0);
+      }, 0);
+
+      return overallWidth;
+    },
+  },
+
   methods: {
     handleSelectedValueChange(newSelectedValue) {
       this.selectedValues.push(newSelectedValue);
@@ -46,8 +59,19 @@ export default {
     pushSelectedValues() {
       const filtered = this.selectedValues.filter(item => item.items.length);
       this.$root.selectedObj.units = [...new Set(filtered)];
-      this.$root.currentStep++;
-      console.log(this.$root.selectedObj.units);
+
+      const overallWidth = [...new Set(filtered)].reduce((acc, unit) => {
+        return acc + unit.items.reduce((acc2, item) => {
+          return acc2 + item.width * item.quantity;
+        }, 0);
+      }, 0)
+
+      if (overallWidth <= this.$root.selectedObj.metrics.width) {
+          this.notice = false;
+          this.$root.currentStep++;
+      } else {
+        this.notice = true;
+      }
     }
   }
 }

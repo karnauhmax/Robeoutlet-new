@@ -1,9 +1,6 @@
 export default {
   template: `
-    <div tabindex="0" class="process__item grid" data-item-type="preview" @keyup.enter="nextStep" @click="nextStep">
-      <div class="process__img ibg">
-      <img loading="lazy" :src="imgPath + img" class="image" width="445" height="290" alt="Framed Silver Doors">
-     </div>
+    <div tabindex="0" class="process__item" data-item-type="preview" @keyup.enter="nextStep" @click="nextStep">
      <div class="process__info grid">
       <p class="process__name uppercase-bold">
        {{title}}

@@ -1,12 +1,15 @@
 import SelectOption from "./_select-option";
 
+
+
 export default {
   data() {
     return {
       isVisible: false,
-      screenWidth: window.innerWidth
+      screenWidth: window.innerWidth,
     }
   },
+
   template: `
   <div v-if="screenWidth <= 767" class="select text-300" @click="isVisible = !isVisible">
     <button class="select__head">Step {{this.$root.currentStep}}</button>

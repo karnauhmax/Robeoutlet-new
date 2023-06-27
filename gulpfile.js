@@ -275,7 +275,7 @@ const htmlInclude = () => {
         locale: ["ru", "en-US"],
       })
     )
-    .pipe(webphtml())
+    // .pipe(webphtml())
     .pipe(dest(buildFolder))
     .pipe(browserSync.stream());
 };
